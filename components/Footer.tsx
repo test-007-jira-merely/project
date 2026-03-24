@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { Github, Linkedin, Twitter, Mail, Heart } from 'lucide-react'
 
 export default function Footer() {
@@ -54,6 +55,14 @@ export default function Footer() {
                 >
                   My Works
                 </a>
+              </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-white/60 hover:text-teal transition-colors duration-300 text-sm"
+                >
+                  Blog
+                </Link>
               </li>
               <li>
                 <a
