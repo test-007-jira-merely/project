@@ -1,27 +1,26 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+      setIsScrolled(window.scrollY > 20)
+    }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
+    const element = document.getElementById(id)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth' })
     }
-  };
+  }
 
   return (
     <motion.header
@@ -57,12 +56,6 @@ export default function Header() {
             >
               About Me
             </button>
-            <Link
-              href="/blog"
-              className="text-white/80 hover:text-white transition-colors duration-300"
-            >
-              Blog
-            </Link>
             <button
               onClick={() => scrollToSection('contact')}
               className="text-white/80 hover:text-white transition-colors duration-300"
@@ -73,5 +66,5 @@ export default function Header() {
         </div>
       </nav>
     </motion.header>
-  );
+  )
 }
