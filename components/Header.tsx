@@ -1,10 +1,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { ROUTES } from '@/lib/constants'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const pathname = usePathname()
+  const isHomePage = pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +21,10 @@ export default function Header() {
   }, [])
 
   const scrollToSection = (id: string) => {
+    if (!isHomePage) {
+      window.location.href = `/#${id}`
+      return
+    }
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
@@ -34,12 +43,13 @@ export default function Header() {
       <nav className="container-custom px-6 md:px-12 lg:px-24 py-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-2xl font-bold cursor-pointer"
-            onClick={() => scrollToSection('home')}
-          >
-            Beezi Test <span className="text-teal">React</span>
+          <motion.div whileHover={{ scale: 1.05 }}>
+            <Link
+              href={ROUTES.HOME}
+              className="text-2xl font-bold cursor-pointer"
+            >
+              Beezi Test <span className="text-teal">React</span>
+            </Link>
           </motion.div>
 
           {/* Navigation Menu */}
@@ -56,6 +66,14 @@ export default function Header() {
             >
               About Me
             </button>
+            <Link
+              href={ROUTES.BLOG}
+              className={`text-white/80 hover:text-white transition-colors duration-300 ${
+                pathname.startsWith('/blog') ? 'text-teal' : ''
+              }`}
+            >
+              Blog
+            </Link>
             <button
               onClick={() => scrollToSection('contact')}
               className="text-white/80 hover:text-white transition-colors duration-300"
