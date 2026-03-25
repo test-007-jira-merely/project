@@ -1,17 +1,19 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
-import { Github, Linkedin, Twitter, Mail, Heart } from 'lucide-react'
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { Github, Linkedin, Twitter, Mail, Heart } from 'lucide-react';
+import { ROUTES } from '@/lib/constants';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   const socialLinks = [
     { Icon: Github, href: '#', label: 'GitHub' },
     { Icon: Linkedin, href: '#', label: 'LinkedIn' },
     { Icon: Twitter, href: '#', label: 'Twitter' },
     { Icon: Mail, href: '#', label: 'Email' },
-  ]
+  ];
 
   return (
     <footer id="contact" className="section-padding bg-navy-dark/80 border-t border-white/5">
@@ -32,36 +34,44 @@ export default function Footer() {
             <h4 className="text-lg font-semibold text-white">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="#home"
+                <Link
+                  href={ROUTES.HOME}
                   className="text-white/60 hover:text-teal transition-colors duration-300 text-sm"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#about"
+                <Link
+                  href="/#about"
                   className="text-white/60 hover:text-teal transition-colors duration-300 text-sm"
                 >
                   About Me
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#works"
+                <Link
+                  href="/#works"
                   className="text-white/60 hover:text-teal transition-colors duration-300 text-sm"
                 >
                   My Works
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#contact"
+                <Link
+                  href={ROUTES.BLOG}
+                  className="text-white/60 hover:text-teal transition-colors duration-300 text-sm"
+                >
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#contact"
                   className="text-white/60 hover:text-teal transition-colors duration-300 text-sm"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -100,5 +110,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
