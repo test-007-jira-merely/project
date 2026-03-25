@@ -56,6 +56,12 @@ export default function Header() {
             >
               About Me
             </button>
+            <a
+              href="/blog"
+              className="text-white/80 hover:text-white transition-colors duration-300"
+            >
+              Blog
+            </a>
             <button
               onClick={() => scrollToSection('contact')}
               className="text-white/80 hover:text-white transition-colors duration-300"
