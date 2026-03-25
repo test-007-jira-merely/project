@@ -61,13 +61,13 @@ export async function getPostBySlug(
   try {
     const supabase = await createClient()
 
-    let query = supabase.from('posts').select('*').eq('slug', slug).single()
+    let query = supabase.from('posts').select('*').eq('slug', slug)
 
     if (publishedOnly) {
       query = query.eq('published', true)
     }
 
-    const { data, error } = await query
+    const { data, error } = await query.single()
 
     if (error) {
       return { data: null, error: error.message }
