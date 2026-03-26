@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -56,6 +57,12 @@ export default function Header() {
             >
               About Me
             </button>
+            <Link
+              href="/blog"
+              className="text-white/80 hover:text-white transition-colors duration-300"
+            >
+              Blog
+            </Link>
             <button
               onClick={() => scrollToSection('contact')}
               className="text-white/80 hover:text-white transition-colors duration-300"
