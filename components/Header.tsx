@@ -2,66 +2,54 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import NavButton from './NavButton'
+import { scrollToSection } from '@/lib/scroll'
+import { SECTIONS, SCROLL_THRESHOLD, ANIMATIONS } from '@/lib/constants'
+
+const NAV_ITEMS = [
+  { section: SECTIONS.HOME, label: 'Home' },
+  { section: SECTIONS.ABOUT, label: 'About Me' },
+  { section: SECTIONS.CONTACT, label: 'Contact' },
+] as const
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      const scrolled = window.scrollY > SCROLL_THRESHOLD
+      setIsScrolled(prev => prev !== scrolled ? scrolled : prev)
     }
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
   return (
     <motion.header
-      initial={{ y: -100 }}
+      initial={{ y: ANIMATIONS.HEADER_INITIAL_Y }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: ANIMATIONS.HEADER_DURATION }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? 'glass-effect shadow-lg' : ''
       }`}
+      role="banner"
     >
-      <nav className="container-custom px-6 md:px-12 lg:px-24 py-6">
+      <nav className="container-custom px-6 md:px-12 lg:px-24 py-6" aria-label="Main navigation">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
+          <motion.button
+            whileHover={{ scale: ANIMATIONS.HOVER_SCALE }}
             className="text-2xl font-bold cursor-pointer"
-            onClick={() => scrollToSection('home')}
+            onClick={() => scrollToSection(SECTIONS.HOME)}
+            aria-label="Go to home section"
           >
-            Beezi Test <span className="text-teal">React</span>
-          </motion.div>
+            Beezi Test
+          </motion.button>
 
-          {/* Navigation Menu */}
           <div className="flex items-center gap-8">
-            <button
-              onClick={() => scrollToSection('home')}
-              className="text-white/80 hover:text-white transition-colors duration-300"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => scrollToSection('about')}
-              className="text-white/80 hover:text-white transition-colors duration-300"
-            >
-              About Me
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="text-white/80 hover:text-white transition-colors duration-300"
-            >
-              Contact
-            </button>
+            {NAV_ITEMS.map(({ section, label }) => (
+              <NavButton key={section} section={section} label={label} />
+            ))}
           </div>
         </div>
       </nav>

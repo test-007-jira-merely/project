@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Code, Palette, Lightbulb, Cpu, Mail, Coffee, Laptop, Smartphone } from 'lucide-react'
+import MotionButton from './MotionButton'
 
 export default function About() {
   const ref = useRef(null)
@@ -91,14 +92,10 @@ export default function About() {
               </p>
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="text-teal font-semibold hover:text-teal-light transition-colors duration-300 flex items-center gap-2"
-            >
+            <MotionButton className="text-teal font-semibold hover:text-teal-light transition-colors duration-300 flex items-center gap-2">
               Read more
               <span className="text-2xl">→</span>
-            </motion.button>
+            </MotionButton>
 
             {/* Decorative code text */}
             <motion.div
