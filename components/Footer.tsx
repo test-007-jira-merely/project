@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Github, Linkedin, Twitter, Mail, Heart } from 'lucide-react'
+import { SECTIONS, ANIMATIONS } from '@/lib/constants'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -33,7 +34,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#home"
+                  href={`#${SECTIONS.HOME}`}
                   className="text-white/60 hover:text-teal transition-colors duration-300 text-sm"
                 >
                   Home
@@ -41,7 +42,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#about"
+                  href={`#${SECTIONS.ABOUT}`}
                   className="text-white/60 hover:text-teal transition-colors duration-300 text-sm"
                 >
                   About Me
@@ -49,7 +50,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#works"
+                  href={`#${SECTIONS.WORKS}`}
                   className="text-white/60 hover:text-teal transition-colors duration-300 text-sm"
                 >
                   My Works
@@ -57,7 +58,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#contact"
+                  href={`#${SECTIONS.CONTACT}`}
                   className="text-white/60 hover:text-teal transition-colors duration-300 text-sm"
                 >
                   Contact
@@ -76,7 +77,7 @@ export default function Footer() {
                   href={social.href}
                   aria-label={social.label}
                   whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ scale: ANIMATIONS.TAP_SCALE }}
                   className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center hover:bg-teal/20 hover:border-teal transition-all duration-300"
                 >
                   <social.Icon size={18} className="text-white/70 hover:text-teal" />

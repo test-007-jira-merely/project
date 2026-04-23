@@ -2,14 +2,11 @@
 
 import { motion } from 'framer-motion'
 import { Download, ChevronDown } from 'lucide-react'
+import MotionButton from './MotionButton'
+import { scrollToSection } from '@/lib/scroll'
+import { SECTIONS } from '@/lib/constants'
 
 export default function Hero() {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
 
   // Animation variants
   const containerVariants = {
@@ -62,22 +59,14 @@ export default function Hero() {
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex gap-4 flex-wrap">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-teal text-white rounded-full font-medium hover:bg-teal-light transition-colors duration-300 shadow-lg hover:glow-effect"
-            >
+            <MotionButton className="px-8 py-3 bg-teal text-white rounded-full font-medium hover:bg-teal-light transition-colors duration-300 shadow-lg hover:glow-effect">
               Hire me
-            </motion.button>
+            </MotionButton>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-navy-light text-white rounded-full font-medium border border-white/20 hover:border-teal transition-all duration-300 flex items-center gap-2"
-            >
+            <MotionButton className="px-8 py-3 bg-navy-light text-white rounded-full font-medium border border-white/20 hover:border-teal transition-all duration-300 flex items-center gap-2">
               Download CV
               <Download size={18} />
-            </motion.button>
+            </MotionButton>
           </motion.div>
 
           {/* Decorative text curve */}
@@ -210,8 +199,9 @@ export default function Hero() {
         <motion.button
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          onClick={() => scrollToSection('about')}
+          onClick={() => scrollToSection(SECTIONS.ABOUT)}
           className="p-4 glass-effect rounded-lg hover:bg-white/10 transition-colors duration-300"
+          aria-label="Scroll to about section"
         >
           <ChevronDown className="text-teal" size={24} />
         </motion.button>
