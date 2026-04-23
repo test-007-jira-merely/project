@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Github, Linkedin, Twitter, Mail, Heart } from 'lucide-react'
+import { TAP_SCALE } from '@/constants/animations'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -70,13 +71,13 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-white">Connect</h4>
             <div className="flex gap-4">
-              {socialLinks.map((social, index) => (
+              {socialLinks.map((social) => (
                 <motion.a
-                  key={index}
+                  key={social.label}
                   href={social.href}
                   aria-label={social.label}
                   whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={TAP_SCALE}
                   className="w-10 h-10 glass-effect rounded-lg flex items-center justify-center hover:bg-teal/20 hover:border-teal transition-all duration-300"
                 >
                   <social.Icon size={18} className="text-white/70 hover:text-teal" />

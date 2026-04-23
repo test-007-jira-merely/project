@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { ExternalLink } from 'lucide-react'
+import { HOVER_SCALE, TAP_SCALE } from '@/constants/animations'
 
 type Project = {
   id: number
@@ -129,8 +130,9 @@ export default function Works() {
           {filters.map((filter) => (
             <motion.button
               key={filter}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              type="button"
+              whileHover={HOVER_SCALE}
+              whileTap={TAP_SCALE}
               onClick={() => setActiveFilter(filter)}
               className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
                 activeFilter === filter

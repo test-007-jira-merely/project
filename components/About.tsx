@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Code, Palette, Lightbulb, Cpu, Mail, Coffee, Laptop, Smartphone } from 'lucide-react'
+import { HOVER_SCALE, TAP_SCALE } from '@/constants/animations'
 
 export default function About() {
   const ref = useRef(null)
@@ -92,8 +93,9 @@ export default function About() {
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              type="button"
+              whileHover={HOVER_SCALE}
+              whileTap={TAP_SCALE}
               className="text-teal font-semibold hover:text-teal-light transition-colors duration-300 flex items-center gap-2"
             >
               Read more
