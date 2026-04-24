@@ -2,14 +2,9 @@
 
 import { motion } from 'framer-motion'
 import { Download, ChevronDown } from 'lucide-react'
+import { scrollToSection } from '@/utils/scroll'
 
 export default function Hero() {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
 
   // Animation variants
   const containerVariants = {

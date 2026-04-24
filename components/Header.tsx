@@ -1,26 +1,19 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { scrollToSection, type SectionId } from '@/utils/scroll'
+import { useScrolled } from '@/utils/hooks'
+
+const NAV_ITEMS: ReadonlyArray<{ id: SectionId; label: string }> = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About Me' },
+  { id: 'contact', label: 'Contact' },
+]
+
+const NAV_BUTTON_CLASS = 'text-white/80 hover:text-white transition-colors duration-300'
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
+  const isScrolled = useScrolled()
 
   return (
     <motion.header
@@ -33,35 +26,24 @@ export default function Header() {
     >
       <nav className="container-custom px-6 md:px-12 lg:px-24 py-6">
         <div className="flex items-center justify-between">
-          {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="text-2xl font-bold cursor-pointer"
             onClick={() => scrollToSection('home')}
           >
-            Beezi Test <span className="text-teal">React</span>
+            Beezi Test
           </motion.div>
 
-          {/* Navigation Menu */}
           <div className="flex items-center gap-8">
-            <button
-              onClick={() => scrollToSection('home')}
-              className="text-white/80 hover:text-white transition-colors duration-300"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => scrollToSection('about')}
-              className="text-white/80 hover:text-white transition-colors duration-300"
-            >
-              About Me
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="text-white/80 hover:text-white transition-colors duration-300"
-            >
-              Contact
-            </button>
+            {NAV_ITEMS.map(({ id, label }) => (
+              <button
+                key={id}
+                onClick={() => scrollToSection(id)}
+                className={NAV_BUTTON_CLASS}
+              >
+                {label}
+              </button>
+            ))}
           </div>
         </div>
       </nav>
