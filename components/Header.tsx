@@ -1,26 +1,19 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useScrolled } from '@/hooks/useScrolled'
+import { scrollToSection } from '@/lib/scroll'
+import { SECTIONS, SCROLL_THRESHOLD } from '@/lib/constants'
+import NavButton from './NavButton'
+
+const NAV_ITEMS = [
+  { id: SECTIONS.HOME, label: 'Home' },
+  { id: SECTIONS.ABOUT, label: 'About Me' },
+  { id: SECTIONS.CONTACT, label: 'Contact' },
+] as const
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
+  const isScrolled = useScrolled(SCROLL_THRESHOLD)
 
   return (
     <motion.header
@@ -33,35 +26,19 @@ export default function Header() {
     >
       <nav className="container-custom px-6 md:px-12 lg:px-24 py-6">
         <div className="flex items-center justify-between">
-          {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="text-2xl font-bold cursor-pointer"
-            onClick={() => scrollToSection('home')}
+            onClick={() => scrollToSection(SECTIONS.HOME)}
+            aria-label="Go to home"
           >
-            Beezi Test <span className="text-teal">React</span>
+            Beezi Test
           </motion.div>
 
-          {/* Navigation Menu */}
-          <div className="flex items-center gap-8">
-            <button
-              onClick={() => scrollToSection('home')}
-              className="text-white/80 hover:text-white transition-colors duration-300"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => scrollToSection('about')}
-              className="text-white/80 hover:text-white transition-colors duration-300"
-            >
-              About Me
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="text-white/80 hover:text-white transition-colors duration-300"
-            >
-              Contact
-            </button>
+          <div className="flex items-center gap-8" role="navigation" aria-label="Main navigation">
+            {NAV_ITEMS.map(({ id, label }) => (
+              <NavButton key={id} sectionId={id} label={label} />
+            ))}
           </div>
         </div>
       </nav>

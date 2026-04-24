@@ -2,14 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { Download, ChevronDown } from 'lucide-react'
+import { scrollToSection } from '@/lib/scroll'
+import { SECTIONS } from '@/lib/constants'
 
 export default function Hero() {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
 
   // Animation variants
   const containerVariants = {
@@ -210,8 +206,9 @@ export default function Hero() {
         <motion.button
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          onClick={() => scrollToSection('about')}
+          onClick={() => scrollToSection(SECTIONS.ABOUT)}
           className="p-4 glass-effect rounded-lg hover:bg-white/10 transition-colors duration-300"
+          aria-label="Scroll to about section"
         >
           <ChevronDown className="text-teal" size={24} />
         </motion.button>
