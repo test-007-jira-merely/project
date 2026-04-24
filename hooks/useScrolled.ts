@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { throttle } from '@/lib/scroll'
 
 /**
@@ -10,15 +10,17 @@ export function useScrolled(threshold: number = 20): boolean {
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
-    const handleScroll = throttle(() => {
+    const handleScroll = () => {
       const scrolled = window.scrollY > threshold
       setIsScrolled(prev => prev !== scrolled ? scrolled : prev)
-    }, 100) // Throttle to ~10 FPS for scroll events
+    }
 
-    handleScroll() // Check initial scroll position
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    const throttledHandleScroll = throttle(handleScroll, 100) // Throttle to ~10 FPS for scroll events
 
-    return () => window.removeEventListener('scroll', handleScroll)
+    throttledHandleScroll() // Check initial scroll position
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true })
+
+    return () => window.removeEventListener('scroll', throttledHandleScroll)
   }, [threshold])
 
   return isScrolled

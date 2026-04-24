@@ -17,7 +17,7 @@ export function scrollToSection(id: SectionId | string): void {
 /**
  * Throttles a function to execute at most once per specified interval
  */
-export function throttle<T extends (...args: any[]) => void>(
+export function throttle<T extends (...args: unknown[]) => void>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {
