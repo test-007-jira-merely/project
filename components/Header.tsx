@@ -39,7 +39,7 @@ export default function Header() {
             className="text-2xl font-bold cursor-pointer"
             onClick={() => scrollToSection('home')}
           >
-            Beezi Test <span className="text-teal">React</span>
+            Beezi Test Project
           </motion.div>
 
           {/* Navigation Menu */}
