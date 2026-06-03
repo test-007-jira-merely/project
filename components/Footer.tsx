@@ -20,7 +20,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <h3 className="text-2xl font-bold">
-              Saul<span className="text-teal">Design</span>
+              Beezi <span className="text-teal">Test</span>
             </h3>
             <p className="text-white/60 text-sm">
               Creating beautiful and functional digital experiences with passion and precision.
@@ -90,7 +90,7 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/5">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-white/50 text-sm">
-              © {currentYear} SaulDesign. All rights reserved.
+              © {currentYear} Beezi Test. All rights reserved.
             </p>
 
             <p className="text-white/50 text-sm flex items-center gap-2">
