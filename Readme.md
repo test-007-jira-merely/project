@@ -1,1 +1,1 @@
-Test project
+Beezi Test Project
