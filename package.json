@@ -1,7 +1,7 @@
 {
-  "name": "saul-portfolio",
+  "name": "beezi-test-project",
   "version": "1.0.0",
-  "description": "Creative UI Designer Portfolio - Next.js",
+  "description": "Beezi Test Project - Next.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
