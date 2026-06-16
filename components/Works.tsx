@@ -2,82 +2,12 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
-import { ExternalLink } from 'lucide-react'
-
-type Project = {
-  id: number
-  title: string
-  category: 'UI' | 'UX' | 'Web Design'
-  image: string
-  description: string
-}
-
-const projects: Project[] = [
-  {
-    id: 1,
-    title: 'Dashboard UI',
-    category: 'UI',
-    image: 'purple',
-    description: 'Modern dashboard interface design',
-  },
-  {
-    id: 2,
-    title: 'Mobile App UX',
-    category: 'UX',
-    image: 'gray',
-    description: 'User experience design for mobile',
-  },
-  {
-    id: 3,
-    title: 'E-commerce Website',
-    category: 'Web Design',
-    image: 'teal',
-    description: 'Complete e-commerce solution',
-  },
-  {
-    id: 4,
-    title: 'Portfolio Design',
-    category: 'Web Design',
-    image: 'blue',
-    description: 'Creative portfolio website',
-  },
-  {
-    id: 5,
-    title: 'Analytics Dashboard',
-    category: 'UI',
-    image: 'green',
-    description: 'Data visualization interface',
-  },
-  {
-    id: 6,
-    title: 'App Wireframes',
-    category: 'UX',
-    image: 'orange',
-    description: 'Mobile app wireframe design',
-  },
-  {
-    id: 7,
-    title: 'Landing Page',
-    category: 'Web Design',
-    image: 'pink',
-    description: 'Product landing page design',
-  },
-  {
-    id: 8,
-    title: 'UI Component Library',
-    category: 'UI',
-    image: 'indigo',
-    description: 'Reusable component system',
-  },
-  {
-    id: 9,
-    title: 'User Research',
-    category: 'UX',
-    image: 'red',
-    description: 'UX research and testing',
-  },
-]
+import { useRef, useState, useEffect } from 'react'
+import { ExternalLink, Heart } from 'lucide-react'
+import Link from 'next/link'
+import { projects, colorMap, type Project } from '@/lib/projects'
+import { useFavorites } from '@/context/FavoritesContext'
+import { useJourney } from '@/context/JourneyContext'
 
 const filters = ['All', 'UI', 'UX', 'Web Design'] as const
 type Filter = (typeof filters)[number]
@@ -86,23 +16,17 @@ export default function Works() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const [activeFilter, setActiveFilter] = useState<Filter>('All')
+  const { toggleFavorite, isFavorite } = useFavorites()
+  const { addEvent } = useJourney()
+
+  useEffect(() => {
+    if (isInView) addEvent('section_visit', undefined, 'works')
+  }, [isInView]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const filteredProjects =
     activeFilter === 'All'
       ? projects
       : projects.filter((project) => project.category === activeFilter)
-
-  const colorMap: Record<string, string> = {
-    purple: 'bg-purple-600',
-    gray: 'bg-gray-600',
-    teal: 'bg-teal-600',
-    blue: 'bg-blue-600',
-    green: 'bg-green-600',
-    orange: 'bg-orange-600',
-    pink: 'bg-pink-600',
-    indigo: 'bg-indigo-600',
-    red: 'bg-red-600',
-  }
 
   return (
     <section id="works" ref={ref} className="min-h-screen section-padding">
@@ -159,50 +83,77 @@ export default function Works() {
               whileHover={{ y: -10 }}
               className="group"
             >
-              <div className="glass-effect rounded-2xl overflow-hidden hover:border-teal transition-all duration-300 hover:glow-effect cursor-pointer">
-                {/* Project Image Placeholder */}
-                <div
-                  className={`h-48 ${colorMap[project.image]} relative overflow-hidden`}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/50" />
+              <Link href={`/projects/${project.slug}`}>
+                <div className="glass-effect rounded-2xl overflow-hidden hover:border-teal transition-all duration-300 hover:glow-effect cursor-pointer">
+                  {/* Project Image Placeholder */}
+                  <div
+                    className={`h-48 ${colorMap[project.image]} relative overflow-hidden`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/50" />
 
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-teal/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      whileHover={{ scale: 1 }}
-                      className="text-white"
+                    {/* Heart Button */}
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        const currentlyFavorited = isFavorite(project.id)
+                        toggleFavorite(project.id)
+                        addEvent(
+                          currentlyFavorited ? 'favorite_removed' : 'favorite_added',
+                          project.id,
+                          project.title
+                        )
+                      }}
+                      className="absolute top-3 right-3 z-20 p-2 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors"
                     >
-                      <ExternalLink size={32} />
-                    </motion.div>
+                      <Heart
+                        size={20}
+                        className={
+                          isFavorite(project.id)
+                            ? 'fill-red-500 text-red-500'
+                            : 'text-white'
+                        }
+                      />
+                    </button>
+
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-teal/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        whileHover={{ scale: 1 }}
+                        className="text-white"
+                      >
+                        <ExternalLink size={32} />
+                      </motion.div>
+                    </div>
+
+                    {/* Decorative elements */}
+                    <div className="absolute top-4 left-4">
+                      <div className="w-16 h-16 border-2 border-white/20 rounded-lg" />
+                    </div>
+                    <div className="absolute bottom-4 right-4">
+                      <div className="w-12 h-12 bg-white/10 rounded-full backdrop-blur-sm" />
+                    </div>
                   </div>
 
-                  {/* Decorative elements */}
-                  <div className="absolute top-4 left-4">
-                    <div className="w-16 h-16 border-2 border-white/20 rounded-lg" />
-                  </div>
-                  <div className="absolute bottom-4 right-4">
-                    <div className="w-12 h-12 bg-white/10 rounded-full backdrop-blur-sm" />
+                  {/* Project Info */}
+                  <div className="p-6 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-semibold text-white group-hover:text-teal transition-colors duration-300">
+                        {project.title}
+                      </h3>
+                    </div>
+
+                    <p className="text-white/60 text-sm">{project.description}</p>
+
+                    <div className="flex items-center gap-2">
+                      <span className="px-3 py-1 bg-teal/20 text-teal text-xs rounded-full border border-teal/30">
+                        {project.category}
+                      </span>
+                    </div>
                   </div>
                 </div>
-
-                {/* Project Info */}
-                <div className="p-6 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-semibold text-white group-hover:text-teal transition-colors duration-300">
-                      {project.title}
-                    </h3>
-                  </div>
-
-                  <p className="text-white/60 text-sm">{project.description}</p>
-
-                  <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 bg-teal/20 text-teal text-xs rounded-full border border-teal/30">
-                      {project.category}
-                    </span>
-                  </div>
-                </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

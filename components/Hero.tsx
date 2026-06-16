@@ -1,9 +1,17 @@
 'use client'
 
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Download, ChevronDown } from 'lucide-react'
+import { useJourney } from '@/context/JourneyContext'
 
 export default function Hero() {
+  const { addEvent } = useJourney()
+
+  useEffect(() => {
+    addEvent('section_visit', undefined, 'hero')
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
