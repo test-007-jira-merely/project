@@ -4,17 +4,21 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useFavorites } from '@/context/FavoritesContext'
 
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/hello', label: 'Hello' },
   { href: '/#about', label: 'About Me' },
   { href: '/#contact', label: 'Contact' },
+  { href: '/favorites', label: 'Favorites' },
+  { href: '/journey', label: 'Journey' },
 ]
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
+  const { favoriteIds } = useFavorites()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,18 +54,23 @@ export default function Header() {
           <div className="flex items-center gap-8">
             {navLinks.map((link) => {
               const isActive =
-                link.href === '/' ? pathname === '/' : pathname === link.href
+                link.href === '/'
+                  ? pathname === '/'
+                  : pathname.startsWith(link.href)
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={
-                    isActive
-                      ? 'nav-link-active'
-                      : 'nav-link'
-                  }
+                  className={`${
+                    isActive ? 'nav-link-active' : 'nav-link'
+                  } relative flex items-center gap-2`}
                 >
                   {link.label}
+                  {link.href === '/favorites' && favoriteIds.length > 0 && (
+                    <span className="px-2 py-0.5 text-xs bg-teal text-white rounded-full font-bold">
+                      {favoriteIds.length}
+                    </span>
+                  )}
                 </Link>
               )
             })}

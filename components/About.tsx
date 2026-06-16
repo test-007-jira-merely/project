@@ -2,12 +2,18 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { Code, Palette, Lightbulb, Cpu, Mail, Coffee, Laptop, Smartphone } from 'lucide-react'
+import { useJourney } from '@/context/JourneyContext'
 
 export default function About() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const { addEvent } = useJourney()
+
+  useEffect(() => {
+    if (isInView) addEvent('section_visit', undefined, 'about')
+  }, [isInView]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const floatingIcons = [
     { Icon: Code, x: '10%', y: '15%', delay: 0 },
