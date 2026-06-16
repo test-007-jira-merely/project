@@ -71,3 +71,18 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 300ms;
+}
+
+.nav-link:hover {
+  color: white;
+}
+
+.nav-link-active {
+  color: #14b8a6;
+  font-weight: 600;
+  transition: color 300ms;
+}
