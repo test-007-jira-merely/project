@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 
 const navLinks = [
   { href: '/', label: 'Home' },
+  { href: '/favorites', label: 'Favorites' },
   { href: '/hello', label: 'Hello' },
   { href: '/#about', label: 'About Me' },
   { href: '/#contact', label: 'Contact' },
@@ -47,10 +48,12 @@ export default function Header() {
           </Link>
 
           {/* Navigation Menu */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-center justify-end gap-4 md:gap-8 flex-wrap text-sm md:text-base">
             {navLinks.map((link) => {
               const isActive =
-                link.href === '/' ? pathname === '/' : pathname === link.href
+                link.href === '/'
+                  ? pathname === '/'
+                  : !link.href.includes('#') && pathname === link.href
               return (
                 <Link
                   key={link.href}
