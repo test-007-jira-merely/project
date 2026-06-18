@@ -4,105 +4,20 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { ExternalLink } from 'lucide-react'
-
-type Project = {
-  id: number
-  title: string
-  category: 'UI' | 'UX' | 'Web Design'
-  image: string
-  description: string
-}
-
-const projects: Project[] = [
-  {
-    id: 1,
-    title: 'Dashboard UI',
-    category: 'UI',
-    image: 'purple',
-    description: 'Modern dashboard interface design',
-  },
-  {
-    id: 2,
-    title: 'Mobile App UX',
-    category: 'UX',
-    image: 'gray',
-    description: 'User experience design for mobile',
-  },
-  {
-    id: 3,
-    title: 'E-commerce Website',
-    category: 'Web Design',
-    image: 'teal',
-    description: 'Complete e-commerce solution',
-  },
-  {
-    id: 4,
-    title: 'Portfolio Design',
-    category: 'Web Design',
-    image: 'blue',
-    description: 'Creative portfolio website',
-  },
-  {
-    id: 5,
-    title: 'Analytics Dashboard',
-    category: 'UI',
-    image: 'green',
-    description: 'Data visualization interface',
-  },
-  {
-    id: 6,
-    title: 'App Wireframes',
-    category: 'UX',
-    image: 'orange',
-    description: 'Mobile app wireframe design',
-  },
-  {
-    id: 7,
-    title: 'Landing Page',
-    category: 'Web Design',
-    image: 'pink',
-    description: 'Product landing page design',
-  },
-  {
-    id: 8,
-    title: 'UI Component Library',
-    category: 'UI',
-    image: 'indigo',
-    description: 'Reusable component system',
-  },
-  {
-    id: 9,
-    title: 'User Research',
-    category: 'UX',
-    image: 'red',
-    description: 'UX research and testing',
-  },
-]
-
-const filters = ['All', 'UI', 'UX', 'Web Design'] as const
-type Filter = (typeof filters)[number]
+import { projects, colorMap, filters, type Filter } from '@/lib/projects'
+import FavoriteButton from '@/components/FavoriteButton'
+import { useFavorites } from '@/hooks/useFavorites'
 
 export default function Works() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const [activeFilter, setActiveFilter] = useState<Filter>('All')
+  const { isFavorite, toggleFavorite } = useFavorites()
 
   const filteredProjects =
     activeFilter === 'All'
       ? projects
       : projects.filter((project) => project.category === activeFilter)
-
-  const colorMap: Record<string, string> = {
-    purple: 'bg-purple-600',
-    gray: 'bg-gray-600',
-    teal: 'bg-teal-600',
-    blue: 'bg-blue-600',
-    green: 'bg-green-600',
-    orange: 'bg-orange-600',
-    pink: 'bg-pink-600',
-    indigo: 'bg-indigo-600',
-    red: 'bg-red-600',
-  }
 
   return (
     <section id="works" ref={ref} className="min-h-screen section-padding">
@@ -165,6 +80,13 @@ export default function Works() {
                   className={`h-48 ${colorMap[project.image]} relative overflow-hidden`}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/50" />
+
+                  {/* Favorite Button */}
+                  <FavoriteButton
+                    projectId={project.id}
+                    isFavorite={isFavorite(project.id)}
+                    onToggle={toggleFavorite}
+                  />
 
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-teal/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
