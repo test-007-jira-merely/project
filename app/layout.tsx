@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import AchievementToasts from '@/components/AchievementToasts'
 import Header from '@/components/Header'
+import { PortfolioExperienceProvider } from '@/providers/PortfolioExperienceProvider'
 
 export const metadata: Metadata = {
   title: 'SaulDesign - Creative UI Designer',
@@ -22,8 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
+        <PortfolioExperienceProvider>
+          <Header />
+          {children}
+          <AchievementToasts />
+        </PortfolioExperienceProvider>
       </body>
     </html>
   )
